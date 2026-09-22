@@ -33,6 +33,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .logo {
@@ -44,13 +46,19 @@
     .contacts {
       font-size: 0.95rem;
       color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
     }
 
     .contacts a {
       color: #4f46e5;
       text-decoration: none;
-      margin-left: 1rem;
       font-weight: 500;
+    }
+
+    .contacts a:hover {
+      text-decoration: underline;
     }
 
     main {
@@ -279,9 +287,9 @@
   <header>
     <div class="logo">Решай.ру</div>
     <div class="contacts">
-      <span>Связаться с нами:</span>
-      <a href="https://t.me/your_telegram" target="_blank">Telegram</a>
-      <a href="https://vk.com/your_vk" target="_blank">VK</a>
+      <span>Связаться:</span>
+      <a href="https://t.me/leonovaru" target="_blank">Telegram (@leonovaru)</a>
+      <a href="https://vk.ru/leonovaru" target="_blank">VK (vk.ru/leonovaru)</a>
     </div>
   </header>
 
