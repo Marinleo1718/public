@@ -6,8 +6,8 @@
   <title>Решай.ру — Образовательная платформа</title>
   <style>
     :root {
-      --primary: #4f46e5;
-      --primary-hover: #4338ca;
+      --primary: #10b981;
+      --primary-hover: #059669;
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --text-main: #1e293b;
@@ -38,7 +38,7 @@
     .logo {
       font-size: 1.5rem;
       font-weight: 700;
-      color: var(--primary);
+      color: #4f46e5;
     }
 
     .contacts {
@@ -47,7 +47,7 @@
     }
 
     .contacts a {
-      color: var(--primary);
+      color: #4f46e5;
       text-decoration: none;
       margin-left: 1rem;
       font-weight: 500;
@@ -96,12 +96,7 @@
     .card:hover {
       border-color: var(--primary);
       transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
-    }
-
-    .card.selected {
-      border-color: var(--primary);
-      background-color: #eef2ff;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
     }
 
     .card h3 {
@@ -116,30 +111,8 @@
       font-size: 0.9rem;
     }
 
-    /* Цветовое разделение блоков */
     .card.school { border-top: 4px solid #3b82f6; }
     .card.exam { border-top: 4px solid #10b981; }
-
-    .action-container {
-      text-align: center;
-      margin-top: 3rem;
-    }
-
-    .btn-main {
-      background-color: var(--primary);
-      color: white;
-      border: none;
-      padding: 1rem 2.5rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.2s;
-    }
-
-    .btn-main:hover {
-      background-color: var(--primary-hover);
-    }
 
     /* Модальное окно */
     .modal {
@@ -150,33 +123,55 @@
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      padding: 1rem;
+      box-sizing: border-box;
     }
 
     .modal-content {
       background: var(--card-bg);
-      padding: 2.5rem;
+      padding: 2rem;
       border-radius: 16px;
-      max-width: 450px;
+      max-width: 500px;
       width: 100%;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       box-sizing: border-box;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
     }
 
     .modal-content h2 {
-      margin-top: 0;
+      margin: 0;
+      font-size: 1.35rem;
+      color: var(--text-main);
+    }
+
+    .close-x {
       font-size: 1.5rem;
-      text-align: center;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .close-x:hover {
+      color: var(--text-main);
+    }
+
+    .modal-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
     }
 
     .form-group {
       margin-bottom: 1.25rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 500;
-      font-size: 0.95rem;
     }
 
     .form-group input {
@@ -197,12 +192,12 @@
 
     .tariff-option {
       border: 1px solid var(--border-color);
-      padding: 0.85rem 1rem;
-      border-radius: 8px;
+      padding: 1rem;
+      border-radius: 10px;
       cursor: pointer;
       display: flex;
       justify-content: space-between;
-      align-items: center;
+      align-items: flex-start;
       transition: border-color 0.2s;
     }
 
@@ -210,8 +205,36 @@
       border-color: var(--primary);
     }
 
-    .tariff-option input {
-      margin-right: 0.75rem;
+    .tariff-info {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      flex: 1;
+    }
+
+    .tariff-info input {
+      margin-top: 3px;
+      width: auto;
+    }
+
+    .tariff-text .title {
+      font-weight: 600;
+      color: var(--text-main);
+      margin-bottom: 0.2rem;
+    }
+
+    .tariff-text .desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    .tariff-price {
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--text-main);
+      white-space: nowrap;
+      margin-left: 1rem;
     }
 
     .btn-submit {
@@ -230,17 +253,6 @@
       background-color: var(--primary-hover);
     }
 
-    .close-modal {
-      text-align: center;
-      margin-top: 1rem;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.9rem;
-    }
-    .close-modal:hover {
-      color: var(--text-main);
-    }
-
     footer {
       text-align: center;
       padding: 1.5rem;
@@ -248,6 +260,17 @@
       font-size: 0.85rem;
       border-top: 1px solid var(--border-color);
       background: var(--card-bg);
+      line-height: 1.6;
+    }
+
+    footer .legal-links {
+      margin-top: 0.5rem;
+    }
+
+    footer .legal-links a {
+      color: var(--text-muted);
+      text-decoration: underline;
+      margin: 0 0.5rem;
     }
   </style>
 </head>
@@ -267,96 +290,110 @@
 
     <div class="section-title">Школа</div>
     <div class="grid-container">
-      <div class="card school" onclick="selectTest(this, 'Тест для 7 класса')">
+      <div class="card school" onclick="openModal('7 класс')">
         <h3>7 класс</h3>
         <p>Диагностика знаний</p>
       </div>
-      <div class="card school" onclick="selectTest(this, 'Тест для 8 класса')">
+      <div class="card school" onclick="openModal('8 класс')">
         <h3>8 класс</h3>
         <p>Диагностика знаний</p>
       </div>
-      <div class="card school" onclick="selectTest(this, 'Тест для 9 класса')">
+      <div class="card school" onclick="openModal('9 класс')">
         <h3>9 класс</h3>
         <p>Диагностика знаний</p>
       </div>
-      <div class="card school" onclick="selectTest(this, 'Тест для 10 класса')">
+      <div class="card school" onclick="openModal('10 класс')">
         <h3>10 класс</h3>
-        <p>Диагностика знаний</p>
-      </div>
-      <div class="card school" onclick="selectTest(this, 'Тест для 11 класса')">
-        <h3>11 класс</h3>
         <p>Диагностика знаний</p>
       </div>
     </div>
 
     <div class="section-title">Экзамены</div>
     <div class="grid-container">
-      <div class="card exam" onclick="selectTest(this, 'Подготовка к ОГЭ')">
+      <div class="card exam" onclick="openModal('ОГЭ')">
         <h3>ОГЭ</h3>
         <p>Полный разбор экзамена</p>
       </div>
-      <div class="card exam" onclick="selectTest(this, 'ЕГЭ Базовый уровень')">
+      <div class="card exam" onclick="openModal('ЕГЭ База')">
         <h3>ЕГЭ База</h3>
         <p>Уверенное решение</p>
       </div>
-      <div class="card exam" onclick="selectTest(this, 'ЕГЭ Профильный уровень')">
+      <div class="card exam" onclick="openModal('ЕГЭ Профиль')">
         <h3>ЕГЭ Профиль</h3>
         <p>Максимальный балл</p>
       </div>
-    </div>
-
-    <div class="action-container">
-      <button class="btn-main" onclick="openModal()">Перейти к тестированию</button>
     </div>
   </main>
 
   <!-- Модальное окно -->
   <div id="modal" class="modal">
     <div class="modal-content">
-      <h2>Оформление доступа</h2>
+      <div class="modal-header">
+        <h2 id="modalTitle">Диагностика</h2>
+        <button class="close-x" onclick="closeModal()">✕</button>
+      </div>
       
-      <div class="form-group">
-        <label for="userName">Ваше имя</label>
-        <input type="text" id="userName" placeholder="Введите имя">
+      <div class="modal-subtitle">Выберите подходящий тариф:</div>
+
+      <div class="tariffs-group">
+        <label class="tariff-option">
+          <div class="tariff-info">
+            <input type="radio" name="tariff" value="500" checked>
+            <div class="tariff-text">
+              <div class="title">Базовый отчет</div>
+              <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
+            </div>
+          </div>
+          <div class="tariff-price">500 ₽</div>
+        </label>
+
+        <label class="tariff-option">
+          <div class="tariff-info">
+            <input type="radio" name="tariff" value="1000">
+            <div class="tariff-text">
+              <div class="title">С разбором заданий</div>
+              <div class="desc">Диагностика + подробное решение всех заданий теста.</div>
+            </div>
+          </div>
+          <div class="tariff-price">1 000 ₽</div>
+        </label>
+
+        <label class="tariff-option">
+          <div class="tariff-info">
+            <input type="radio" name="tariff" value="2500">
+            <div class="tariff-text">
+              <div class="title">С личной встречей</div>
+              <div class="desc">Диагностика + встреча 1–1.5 часа с репетитором (разбор ошибок и план подготовки).</div>
+            </div>
+          </div>
+          <div class="tariff-price">2 500 ₽</div>
+        </label>
       </div>
 
       <div class="form-group">
-        <label for="userPhone">Номер телефона</label>
+        <input type="text" id="userName" placeholder="Ваше Имя">
+      </div>
+
+      <div class="form-group">
         <input type="tel" id="userPhone" placeholder="+7 (___) ___-__-__">
       </div>
 
-      <div class="form-group">
-        <label>Выберите тариф:</label>
-        <div class="tariffs-group">
-          <label class="tariff-option">
-            <div><input type="radio" name="tariff" value="500" checked> Базовый</div>
-            <strong>500 ₽</strong>
-          </label>
-          <label class="tariff-option">
-            <div><input type="radio" name="tariff" value="1000"> Стандарт</div>
-            <strong>1000 ₽</strong>
-          </label>
-          <label class="tariff-option">
-            <div><input type="radio" name="tariff" value="2500"> Максимальный</div>
-            <strong>2500 ₽</strong>
-          </label>
-        </div>
-      </div>
-
-      <button class="btn-submit" onclick="startTestFlow()">Оплатить и начать</button>
-      <div class="close-modal" onclick="closeModal()">Отмена</div>
+      <button class="btn-submit" onclick="startTestFlow()">Перейти к тестированию</button>
     </div>
   </div>
 
   <footer>
-    &copy; Решай.ру. Все права защищены.
+    <div>Марина Леонова | ИНН 721402977833</div>
+    <div class="legal-links">
+      <a href="#" onclick="alert('Документ в процессе загрузки'); return false;">Пользовательское соглашение</a> | 
+      <a href="#" onclick="alert('Документ в процессе загрузки'); return false;">Политика конфиденциальности</a>
+    </div>
+    <div style="margin-top: 0.5rem;">&copy; Решай.ру. Все права защищены.</div>
   </footer>
 
   <script>
     let selectedTest = null;
-    let studentData = { name: "", phone: "" };
 
-    // Маска для телефона
     const phoneInput = document.getElementById("userPhone");
     phoneInput.addEventListener("input", function (e) {
       let x = e.target.value.replace(/\D/g, "").match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
@@ -367,17 +404,9 @@
       }
     });
 
-    function selectTest(element, testName) {
-      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
-      element.classList.add('selected');
+    function openModal(testName) {
       selectedTest = testName;
-    }
-
-    function openModal() {
-      if (!selectedTest) {
-        alert("Пожалуйста, выберите тест (класс или экзамен) из списка выше!");
-        return;
-      }
+      document.getElementById('modalTitle').innerText = `Диагностика: ${testName}`;
       document.getElementById('modal').style.display = 'flex';
     }
 
@@ -385,7 +414,6 @@
       document.getElementById('modal').style.display = 'none';
     }
 
-    // Автоматическая отправка запроса на бэкенд для создания платежа через ЮKassa
     async function startTestFlow() {
       const name = document.getElementById("userName").value.trim();
       const phoneVal = phoneInput.value.replace(/\D/g, "");
@@ -425,13 +453,13 @@
         } else {
           alert("Ошибка при создании платежа. Попробуйте позже.");
           submitBtn.disabled = false;
-          submitBtn.innerText = "Оплатить и начать";
+          submitBtn.innerText = "Перейти к тестированию";
         }
       } catch (error) {
         console.error("Ошибка:", error);
         alert("Не удалось связаться с сервером оплаты.");
         submitBtn.disabled = false;
-        submitBtn.innerText = "Оплатить и начать";
+        submitBtn.innerText = "Перейти к тестированию";
       }
     }
   </script>
