@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Решай.ру — Образовательная платформа</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1.25rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .contacts {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+    }
+
+    .contacts a {
+      color: var(--primary);
+      text-decoration: none;
+      margin-left: 1rem;
+      font-weight: 500;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-size: 2rem;
+    }
+
+    .section-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin: 1.5rem 0 1rem;
+      color: var(--text-muted);
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card:hover {
+      border-color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(79, 70, 229, 0.1);
+    }
+
+    .card.selected {
+      border-color: var(--primary);
+      background-color: #eef2ff;
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.2rem;
+      color: var(--text-main);
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* Цветовое разделение блоков */
+    .card.school { border-top: 4px solid #3b82f6; }
+    .card.exam { border-top: 4px solid #10b981; }
+
+    .action-container {
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    .btn-main {
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem 2.5rem;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn-main:hover {
+      background-color: var(--primary-hover);
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2.5rem;
+      border-radius: 16px;
+      max-width: 450px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+    }
+
+    .modal-content h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+
+    .tariffs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tariff-option {
+      border: 1px solid var(--border-color);
+      padding: 0.85rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: border-color 0.2s;
+    }
+
+    .tariff-option:hover {
+      border-color: var(--primary);
+    }
+
+    .tariff-option input {
+      margin-right: 0.75rem;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 0.9rem;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    .close-modal {
+      text-align: center;
+      margin-top: 1rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+    .close-modal:hover {
+      color: var(--text-main);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--card-bg);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo">Решай.ру</div>
+    <div class="contacts">
+      <span>Связаться с нами:</span>
+      <a href="https://t.me/your_telegram" target="_blank">Telegram</a>
+      <a href="https://vk.com/your_vk" target="_blank">VK</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Выберите уровень тестирования</h1>
+
+    <div class="section-title">Школа</div>
+    <div class="grid-container">
+      <div class="card school" onclick="selectTest(this, 'Тест для 7 класса')">
+        <h3>7 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="selectTest(this, 'Тест для 8 класса')">
+        <h3>8 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="selectTest(this, 'Тест для 9 класса')">
+        <h3>9 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="selectTest(this, 'Тест для 10 класса')">
+        <h3>10 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="selectTest(this, 'Тест для 11 класса')">
+        <h3>11 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+    </div>
+
+    <div class="section-title">Экзамены</div>
+    <div class="grid-container">
+      <div class="card exam" onclick="selectTest(this, 'Подготовка к ОГЭ')">
+        <h3>ОГЭ</h3>
+        <p>Полный разбор экзамена</p>
+      </div>
+      <div class="card exam" onclick="selectTest(this, 'ЕГЭ Базовый уровень')">
+        <h3>ЕГЭ База</h3>
+        <p>Уверенное решение</p>
+      </div>
+      <div class="card exam" onclick="selectTest(this, 'ЕГЭ Профильный уровень')">
+        <h3>ЕГЭ Профиль</h3>
+        <p>Максимальный балл</p>
+      </div>
+    </div>
+
+    <div class="action-container">
+      <button class="btn-main" onclick="openModal()">Перейти к тестированию</button>
+    </div>
+  </main>
+
+  <!-- Модальное окно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <h2>Оформление доступа</h2>
+      
+      <div class="form-group">
+        <label for="userName">Ваше имя</label>
+        <input type="text" id="userName" placeholder="Введите имя">
+      </div>
+
+      <div class="form-group">
+        <label for="userPhone">Номер телефона</label>
+        <input type="tel" id="userPhone" placeholder="+7 (___) ___-__-__">
+      </div>
+
+      <div class="form-group">
+        <label>Выберите тариф:</label>
+        <div class="tariffs-group">
+          <label class="tariff-option">
+            <div><input type="radio" name="tariff" value="500" checked> Базовый</div>
+            <strong>500 ₽</strong>
+          </label>
+          <label class="tariff-option">
+            <div><input type="radio" name="tariff" value="1000"> Стандарт</div>
+            <strong>1000 ₽</strong>
+          </label>
+          <label class="tariff-option">
+            <div><input type="radio" name="tariff" value="2500"> Максимальный</div>
+            <strong>2500 ₽</strong>
+          </label>
+        </div>
+      </div>
+
+      <button class="btn-submit" onclick="startTestFlow()">Оплатить и начать</button>
+      <div class="close-modal" onclick="closeModal()">Отмена</div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; Решай.ру. Все права защищены.
+  </footer>
+
+  <script>
+    let selectedTest = null;
+    let studentData = { name: "", phone: "" };
+
+    // Маска для телефона
+    const phoneInput = document.getElementById("userPhone");
+    phoneInput.addEventListener("input", function (e) {
+      let x = e.target.value.replace(/\D/g, "").match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+      if (!x[2]) {
+        e.target.value = x[1] ? "+7 (" + x[1] : "";
+      } else {
+        e.target.value = "+7 (" + x[2] + (x[3] ? ") " + x[3] : "") + (x[4] ? "-" + x[4] : "") + (x[5] ? "-" + x[5] : "");
+      }
+    });
+
+    function selectTest(element, testName) {
+      document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+      element.classList.add('selected');
+      selectedTest = testName;
+    }
+
+    function openModal() {
+      if (!selectedTest) {
+        alert("Пожалуйста, выберите тест (класс или экзамен) из списка выше!");
+        return;
+      }
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Автоматическая отправка запроса на бэкенд для создания платежа через ЮKassa
+    async function startTestFlow() {
+      const name = document.getElementById("userName").value.trim();
+      const phoneVal = phoneInput.value.replace(/\D/g, "");
+      const tariffEl = document.querySelector('input[name="tariff"]:checked');
+
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя!");
+        return;
+      }
+      if (phoneVal.length !== 11) {
+        alert("Пожалуйста, введите корректный номер телефона!");
+        return;
+      }
+
+      const tariffPrice = tariffEl ? tariffEl.value : "500";
+      const submitBtn = document.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Создаем платеж...";
+
+      try {
+        const response = await fetch('/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: tariffPrice,
+            description: `Тест: ${selectedTest} (Тариф ${tariffPrice} ₽)`,
+            customerName: name,
+            customerPhone: phoneInput.value,
+            testName: selectedTest
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.confirmationUrl) {
+          window.location.href = data.confirmationUrl;
+        } else {
+          alert("Ошибка при создании платежа. Попробуйте позже.");
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Оплатить и начать";
+        }
+      } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Не удалось связаться с сервером оплаты.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Оплатить и начать";
+      }
+    }
+  </script>
+</body>
+</html>
