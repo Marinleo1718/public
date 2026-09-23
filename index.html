@@ -52,24 +52,24 @@
       color: #4f46e5;
     }
 
+    /* Обновленные, более аккуратные иконки */
     .social-icons {
       display: flex;
       align-items: center;
       gap: 1.2rem;
     }
-
     .social-icons a {
       display: inline-flex;
-      transition: transform 0.2s ease;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      color: var(--text-muted);
     }
-
     .social-icons a:hover {
-      transform: scale(1.1);
+      transform: translateY(-2px);
+      opacity: 0.8;
     }
-
     .social-icons svg {
-      width: 28px;
-      height: 28px;
+      width: 26px;
+      height: 26px;
     }
 
     main {
@@ -81,7 +81,7 @@
       box-sizing: border-box;
     }
 
-    /* Блок Обо мне */
+    /* Блок Обо мне (с фото слева) */
     .about-section {
       background: var(--card-bg);
       border-radius: 16px;
@@ -90,34 +90,35 @@
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       border: 1px solid var(--border-color);
     }
+    
+    .about-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
 
-    .about-section h1 {
+    .about-photo {
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+      border: 4px solid var(--school-bg);
+    }
+
+    .about-text h1 {
       color: #4f46e5;
       margin-top: 0;
       font-size: 1.8rem;
       line-height: 1.3;
-    }
-
-    .about-section h3 {
-      color: var(--text-main);
-      margin-top: 1.5rem;
-      margin-bottom: 0.5rem;
-      font-size: 1.2rem;
-    }
-
-    .about-section p {
-      color: var(--text-muted);
       margin-bottom: 1rem;
     }
 
-    .about-section ul {
+    .about-text p {
       color: var(--text-muted);
-      margin-top: 0;
-      padding-left: 1.2rem;
-    }
-
-    .about-section li {
-      margin-bottom: 0.4rem;
+      margin: 0;
+      font-size: 1.05rem;
+      line-height: 1.6;
     }
 
     .section-title {
@@ -160,7 +161,6 @@
       opacity: 0.9;
     }
 
-    /* Цвета для школ */
     .card.school {
       background-color: var(--school-bg);
       border-color: var(--school-border);
@@ -170,7 +170,6 @@
       box-shadow: 0 6px 12px rgba(59, 130, 246, 0.15);
     }
     
-    /* Цвета для экзаменов */
     .card.exam {
       background-color: var(--exam-bg);
       border-color: var(--exam-border);
@@ -261,7 +260,6 @@
       display: flex;
       flex-direction: column;
       gap: 0.75rem;
-      margin-bottom: 1.5rem;
     }
 
     .tariff-option {
@@ -270,6 +268,9 @@
       border-radius: 10px;
       cursor: pointer;
       transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
     }
 
     .tariff-option:hover {
@@ -279,13 +280,6 @@
     .tariff-option.active {
       border-color: var(--primary);
       background-color: #f0fdf4;
-    }
-
-    .tariff-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 0.25rem;
     }
 
     .tariff-info {
@@ -321,21 +315,28 @@
       margin-left: 1rem;
     }
 
-    /* Галочка дополнительных опций */
-    .addon-box {
-      margin-top: 0.75rem;
-      margin-left: 28px;
-      padding-top: 0.75rem;
-      border-top: 1px dashed var(--border-color);
+    /* Галочка дополнительных опций вынесена вниз и применяется ко всем */
+    .global-addon {
+      margin: 1rem 0 1.5rem 0;
+      padding: 1rem;
+      background: var(--bg-color);
+      border-radius: 8px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      font-size: 0.9rem;
+      gap: 0.75rem;
+      font-size: 0.95rem;
       color: var(--text-main);
+      border: 1px dashed #cbd5e1;
     }
-    .addon-box input[type="checkbox"] {
-      transform: scale(1.2);
+    .global-addon input[type="checkbox"] {
+      transform: scale(1.3);
       cursor: pointer;
+      accent-color: var(--primary);
+    }
+    .global-addon label {
+      cursor: pointer;
+      user-select: none;
+      font-weight: 500;
     }
 
     .btn-submit {
@@ -349,7 +350,6 @@
       border-radius: 8px;
       cursor: pointer;
       transition: background-color 0.2s;
-      margin-top: 0.5rem;
     }
 
     .btn-submit:hover {
@@ -380,10 +380,14 @@
     }
     
     @media (max-width: 600px) {
+      .about-wrapper {
+        flex-direction: column;
+        text-align: center;
+      }
       .about-section {
         padding: 1.5rem;
       }
-      .about-section h1 {
+      .about-text h1 {
         font-size: 1.5rem;
       }
       header {
@@ -399,36 +403,28 @@
     <div class="social-icons">
       <!-- Telegram -->
       <a href="https://t.me/leonovaru" target="_blank" aria-label="Telegram">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0088cc">
-          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.94z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="#0088cc"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.94z"/></svg>
       </a>
-      <!-- VK -->
+      <!-- Аккуратный VK -->
       <a href="https://vk.ru/leonovaru" target="_blank" aria-label="VK">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0077FF">
-          <path d="M15.077 23.994c-8.995 0-14.158-6.195-14.372-16.486h4.597c.15 7.42 3.652 10.518 6.42 11.144v-11.144h4.376v6.368c2.723-.298 5.61-3.21 6.516-6.368h4.376c-.73 3.847-3.666 6.78-5.748 8.163 2.083 1.066 5.38 3.668 6.55 8.323h-4.757c-.89-3.32-3.626-5.83-6.937-6.15v6.15h-1.021z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="#0077FF"><path d="M20.5 3.5h-17c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h17c1.1 0 2-.9 2-2v-13c0-1.1-.9-2-2-2zm-2.4 9.1c.3.3.6.6.9.9.2.2.4.4.6.6.2.2.3.4.2.7 0 .2-.1.4-.2.5-.2.2-.5.3-.8.3h-1.8c-.3 0-.6-.1-.8-.4-.2-.2-.4-.5-.6-.7-.2-.2-.3-.5-.5-.6-.2-.2-.3-.2-.4-.1-.2.2-.2.6-.2.9 0 .3-.1.5-.4.5H13c-2.1 0-3.9 1-5 2.7-.9 1.4-1.5 3-1.8 4.7-.1.3-.2.4-.5.4h-1.8c-.3 0-.4-.1-.5-.3-.1-.2 0-.4.1-.7.6-2 1.6-3.8 2.9-5.3.3-.4.3-.6 0-1-1-1.3-1.8-2.8-2.2-4.4-.1-.3 0-.5.2-.6.2-.1.4-.2.6-.2h2c.3 0 .5.2.6.5.3 1.2.7 2.3 1.3 3.3.1.2.3.3.4.2.1-.1.2-.4.2-.7V7.8c0-.4.1-.7.4-.9.2-.1.5-.2.8-.2h1.6c.3 0 .5.1.5.4v3.5c0 .3.2.4.3.3.2-.2.4-.4.6-.7.4-.7.7-1.5.9-2.3.1-.3.3-.5.6-.5h2c.3 0 .5.1.6.4 0 .2-.1.4-.2.6-.4.8-.9 1.6-1.5 2.2-.3.2-.3.5-.1.7z"/></svg>
       </a>
-      <!-- WhatsApp -->
+      <!-- Аккуратный WhatsApp -->
       <a href="https://wa.me/79044766535" target="_blank" aria-label="WhatsApp">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366">
-          <path d="M12.031 0c-6.623 0-12 5.376-12 11.996 0 2.122.553 4.197 1.597 6.002l-1.628 5.952 6.096-1.598c1.758.966 3.743 1.478 5.794 1.478 6.621 0 11.998-5.374 11.998-11.996.002-6.625-5.375-12-12-12zm6.208 17.202c-.255.72-.942 1.348-1.583 1.49-.604.133-1.468.216-2.583-.153-2.923-1.004-5.35-3.354-6.307-4.607-1.127-1.466-2.127-3.557-1.077-5.353.473-.807 1.258-.962 1.62-.962.33 0 .524.013.71.013.255 0 .565-.05.908.775.36.87 1.018 2.477 1.107 2.656.09.18.156.402.043.64-.108.24-.162.388-.323.578-.163.19-.34.42-.486.568-.163.164-.336.342-.143.673.193.332.86 1.422 1.848 2.302 1.275 1.135 2.33 1.488 2.66 1.652.33.164.524.136.72-.086.195-.224.84-1.002 1.066-1.347.227-.344.453-.286.75-.173.298.114 1.884.887 2.207 1.05.324.162.538.24.618.374.08.134.08.774-.175 1.493z"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.888-.788-1.487-1.761-1.66-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.198 5.076 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
       </a>
     </div>
   </header>
 
   <main>
     <section class="about-section">
-      <h1>Добро пожаловать в Решай.ру! Математика без страха для 7–11 классов 🚀</h1>
-      <p>Меня зовут <b>Марина Леонова</b>. Я преподаю математику уже 10 лет и создала этот проект, чтобы предмет перестал быть для школьников пыткой. Моя цель — не просто «натаскать» на типовые задания, а научить думать, уверенно решать задачи любой сложности и видеть логику.</p>
-
-      <h3>Как проходят занятия в Решай.ру:</h3>
-      <ul>
-        <li>Объясняю темы понятным языком, через жизненные примеры и аналогии.</li>
-        <li>Учу думать, а не зубрить: мы много тренируемся на практике, ведь математику нужно именно решать.</li>
-        <li>Разбираем школьные домашние задания: сначала делаем аналогичные примеры вместе, затем ученик решает сам под моим строгим контролем.</li>
-      </ul>
+      <div class="about-wrapper">
+        <img src="photo_marina.jpg" alt="Марина Леонова" class="about-photo" onerror="this.src='https://via.placeholder.com/160x160?text=Фото'">
+        <div class="about-text">
+          <h1>Добро пожаловать в Решай.ру! 🚀</h1>
+          <p>Меня зовут <b>Марина Леонова</b>. Я преподаю математику 10 лет и создала этот проект, чтобы предмет перестал быть для школьников пыткой. Моя цель — научить думать, уверенно решать задачи любой сложности и видеть логику, а не просто зубрить.</p>
+        </div>
+      </div>
     </section>
 
     <div class="section-title">Диагностика для школы</div>
@@ -481,35 +477,33 @@
       <div class="tariffs-group">
         <!-- Тариф 1 -->
         <label class="tariff-option active" id="tariffBox1">
-          <div class="tariff-header">
-            <div class="tariff-info">
-              <input type="radio" name="tariff" value="base" onchange="updateTariffUI()" checked>
-              <div class="tariff-text">
-                <div class="title">Базовый отчет</div>
-                <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
-              </div>
+          <div class="tariff-info">
+            <input type="radio" name="tariff" value="base" onchange="updateTariffUI()" checked>
+            <div class="tariff-text">
+              <div class="title">Базовый отчет</div>
+              <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
             </div>
-            <div class="tariff-price" id="basePriceLabel">500 ₽</div>
           </div>
-          <div class="addon-box">
-            <input type="checkbox" id="addonSolutions" onchange="updateTariffUI()">
-            <label for="addonSolutions">добавить решение заданий (+99 ₽)</label>
-          </div>
+          <div class="tariff-price" id="basePriceLabel">500 ₽</div>
         </label>
 
-        <!-- Тариф 2 (бывший 3) -->
+        <!-- Тариф 2 -->
         <label class="tariff-option" id="tariffBox2">
-          <div class="tariff-header">
-            <div class="tariff-info">
-              <input type="radio" name="tariff" value="tutor" onchange="updateTariffUI()">
-              <div class="tariff-text">
-                <div class="title">С личной встречей</div>
-                <div class="desc">Диагностика + занятие с репетитором по итогам диагностики 1 час.</div>
-              </div>
+          <div class="tariff-info">
+            <input type="radio" name="tariff" value="tutor" onchange="updateTariffUI()">
+            <div class="tariff-text">
+              <div class="title">С личной встречей</div>
+              <div class="desc">Диагностика + занятие с репетитором по итогам диагностики (1 час).</div>
             </div>
-            <div class="tariff-price">1 500 ₽</div>
           </div>
+          <div class="tariff-price" id="tutorPriceLabel">1 800 ₽</div>
         </label>
+      </div>
+
+      <!-- Глобальная опция (применяется к любому тарифу) -->
+      <div class="global-addon">
+        <input type="checkbox" id="addonSolutions" onchange="updateTariffUI()">
+        <label for="addonSolutions">добавить подробное решение всех заданий (+99 ₽)</label>
       </div>
 
       <div class="form-group">
@@ -537,6 +531,17 @@
   <script>
     let selectedTest = null;
 
+    // Маппинг файлов для тестов
+    const testFiles = {
+      '7 класс': 'test_7.json',
+      '8 класс': 'test_8.json',
+      '9 класс': 'test_9.json',
+      '10 класс': 'test_10.json',
+      'ОГЭ': 'test_oge.json',
+      'ЕГЭ База': 'test_ege_base.json',
+      'ЕГЭ Профиль': 'test_ege_profile.json'
+    };
+
     // Маска телефона
     const phoneInput = document.getElementById("userPhone");
     phoneInput.addEventListener("input", function (e) {
@@ -553,24 +558,20 @@
       const isBaseSelected = document.querySelector('input[name="tariff"][value="base"]').checked;
       const box1 = document.getElementById('tariffBox1');
       const box2 = document.getElementById('tariffBox2');
-      const addonCheckbox = document.getElementById('addonSolutions');
-      const basePriceLabel = document.getElementById('basePriceLabel');
+      const hasAddon = document.getElementById('addonSolutions').checked;
+      
+      const addonPrice = hasAddon ? 99 : 0;
+
+      // Обновляем цены в карточках тарифов
+      document.getElementById('basePriceLabel').innerText = (500 + addonPrice) + " ₽";
+      document.getElementById('tutorPriceLabel').innerText = (1800 + addonPrice) + " ₽";
 
       if (isBaseSelected) {
         box1.classList.add('active');
         box2.classList.remove('active');
-        // Считаем стоимость первого тарифа
-        if (addonCheckbox.checked) {
-          basePriceLabel.innerText = "599 ₽";
-        } else {
-          basePriceLabel.innerText = "500 ₽";
-        }
       } else {
         box1.classList.remove('active');
         box2.classList.add('active');
-        // Если выбран тариф с репетитором, галочка возвращает базовую цену (чисто визуально)
-        basePriceLabel.innerText = "500 ₽";
-        addonCheckbox.checked = false;
       }
     }
 
@@ -609,15 +610,13 @@
       }
 
       // Вычисление итоговой суммы
-      let finalPrice = 500;
       const isBase = document.querySelector('input[name="tariff"][value="base"]').checked;
       const hasAddon = document.getElementById('addonSolutions').checked;
-
-      if (isBase) {
-        finalPrice = hasAddon ? 599 : 500;
-      } else {
-        finalPrice = 1500;
-      }
+      const basePrice = isBase ? 500 : 1800;
+      const finalPrice = basePrice + (hasAddon ? 99 : 0);
+      
+      // Определяем какой файл нам нужно будет загружать (для бэкенда)
+      const dataFileToLoad = testFiles[selectedTest];
 
       const submitBtn = document.querySelector('.btn-submit');
       submitBtn.disabled = true;
@@ -632,7 +631,8 @@
             description: `Тест: ${selectedTest} (Тариф ${finalPrice} ₽)`,
             customerName: name,
             customerPhone: phoneInput.value,
-            testName: selectedTest
+            testName: selectedTest,
+            targetFile: dataFileToLoad // передаем имя файла для дальнейшей обработки
           })
         });
 
