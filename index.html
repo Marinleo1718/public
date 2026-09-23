@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Решай.ру — Образовательная платформа</title>
+  <title>Решай.ру — Образовательная платформа Марины Леоновой</title>
   <style>
     :root {
       --primary: #10b981;
@@ -13,6 +13,14 @@
       --text-main: #1e293b;
       --text-muted: #64748b;
       --border-color: #e2e8f0;
+      
+      --school-bg: #eff6ff;
+      --school-border: #3b82f6;
+      --school-text: #1d4ed8;
+      
+      --exam-bg: #f0fdf4;
+      --exam-border: #10b981;
+      --exam-text: #047857;
     }
 
     body {
@@ -24,12 +32,13 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      line-height: 1.5;
     }
 
     header {
       background: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
-      padding: 1.25rem 2rem;
+      padding: 1rem 2rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -39,26 +48,28 @@
 
     .logo {
       font-size: 1.5rem;
-      font-weight: 700;
+      font-weight: 800;
       color: #4f46e5;
     }
 
-    .contacts {
-      font-size: 0.95rem;
-      color: var(--text-muted);
+    .social-icons {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 1.2rem;
     }
 
-    .contacts a {
-      color: #4f46e5;
-      text-decoration: none;
-      font-weight: 500;
+    .social-icons a {
+      display: inline-flex;
+      transition: transform 0.2s ease;
     }
 
-    .contacts a:hover {
-      text-decoration: underline;
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons svg {
+      width: 28px;
+      height: 28px;
     }
 
     main {
@@ -70,17 +81,51 @@
       box-sizing: border-box;
     }
 
-    h1 {
-      text-align: center;
-      margin-bottom: 2rem;
-      font-size: 2rem;
+    /* Блок Обо мне */
+    .about-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .about-section h1 {
+      color: #4f46e5;
+      margin-top: 0;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .about-section h3 {
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .about-section p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .about-section ul {
+      color: var(--text-muted);
+      margin-top: 0;
+      padding-left: 1.2rem;
+    }
+
+    .about-section li {
+      margin-bottom: 0.4rem;
     }
 
     .section-title {
-      font-size: 1.25rem;
-      font-weight: 600;
-      margin: 1.5rem 0 1rem;
-      color: var(--text-muted);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      color: var(--text-main);
+      text-align: center;
     }
 
     .grid-container {
@@ -91,8 +136,7 @@
     }
 
     .card {
-      background: var(--card-bg);
-      border: 2px solid var(--border-color);
+      border: 2px solid;
       border-radius: 12px;
       padding: 1.5rem;
       text-align: center;
@@ -102,25 +146,39 @@
     }
 
     .card:hover {
-      border-color: var(--primary);
-      transform: translateY(-3px);
-      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.15);
+      transform: translateY(-4px);
     }
 
     .card h3 {
       margin: 0 0 0.5rem;
-      font-size: 1.2rem;
-      color: var(--text-main);
+      font-size: 1.3rem;
     }
 
     .card p {
       margin: 0;
-      color: var(--text-muted);
-      font-size: 0.9rem;
+      font-size: 0.95rem;
+      opacity: 0.9;
     }
 
-    .card.school { border-top: 4px solid #3b82f6; }
-    .card.exam { border-top: 4px solid #10b981; }
+    /* Цвета для школ */
+    .card.school {
+      background-color: var(--school-bg);
+      border-color: var(--school-border);
+      color: var(--school-text);
+    }
+    .card.school:hover {
+      box-shadow: 0 6px 12px rgba(59, 130, 246, 0.15);
+    }
+    
+    /* Цвета для экзаменов */
+    .card.exam {
+      background-color: var(--exam-bg);
+      border-color: var(--exam-border);
+      color: var(--exam-text);
+    }
+    .card.exam:hover {
+      box-shadow: 0 6px 12px rgba(16, 185, 129, 0.15);
+    }
 
     /* Модальное окно */
     .modal {
@@ -133,6 +191,7 @@
       z-index: 1000;
       padding: 1rem;
       box-sizing: border-box;
+      backdrop-filter: blur(4px);
     }
 
     .modal-content {
@@ -143,7 +202,7 @@
       width: 100%;
       box-shadow: 0 10px 25px rgba(0,0,0,0.1);
       box-sizing: border-box;
-      max-height: 90vh;
+      max-height: 95vh;
       overflow-y: auto;
     }
 
@@ -151,7 +210,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.25rem;
+      margin-bottom: 0.5rem;
     }
 
     .modal-content h2 {
@@ -175,20 +234,27 @@
     .modal-subtitle {
       font-size: 0.95rem;
       color: var(--text-muted);
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     .form-group {
       margin-bottom: 1.25rem;
     }
 
-    .form-group input {
+    .form-group input[type="text"],
+    .form-group input[type="tel"] {
       width: 100%;
-      padding: 0.75rem;
+      padding: 0.85rem;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       font-size: 1rem;
       box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
     }
 
     .tariffs-group {
@@ -199,18 +265,27 @@
     }
 
     .tariff-option {
-      border: 1px solid var(--border-color);
+      border: 2px solid var(--border-color);
       padding: 1rem;
       border-radius: 10px;
       cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      transition: border-color 0.2s;
+      transition: all 0.2s;
     }
 
     .tariff-option:hover {
+      border-color: #cbd5e1;
+    }
+    
+    .tariff-option.active {
       border-color: var(--primary);
+      background-color: #f0fdf4;
+    }
+
+    .tariff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
     }
 
     .tariff-info {
@@ -220,29 +295,47 @@
       flex: 1;
     }
 
-    .tariff-info input {
-      margin-top: 3px;
-      width: auto;
+    .tariff-info input[type="radio"] {
+      margin-top: 4px;
+      transform: scale(1.2);
     }
 
     .tariff-text .title {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 0.2rem;
+      font-size: 1.05rem;
     }
 
     .tariff-text .desc {
       font-size: 0.85rem;
       color: var(--text-muted);
       line-height: 1.4;
+      margin-top: 0.2rem;
     }
 
     .tariff-price {
-      font-weight: 700;
-      font-size: 1.1rem;
+      font-weight: 800;
+      font-size: 1.15rem;
       color: var(--text-main);
       white-space: nowrap;
       margin-left: 1rem;
+    }
+
+    /* Галочка дополнительных опций */
+    .addon-box {
+      margin-top: 0.75rem;
+      margin-left: 28px;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+    .addon-box input[type="checkbox"] {
+      transform: scale(1.2);
+      cursor: pointer;
     }
 
     .btn-submit {
@@ -250,11 +343,13 @@
       background-color: var(--primary);
       color: white;
       border: none;
-      padding: 0.9rem;
-      font-size: 1rem;
+      padding: 1rem;
+      font-size: 1.05rem;
       font-weight: 600;
       border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 0.5rem;
     }
 
     .btn-submit:hover {
@@ -273,12 +368,27 @@
 
     footer .legal-links {
       margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
 
     footer .legal-links a {
       color: var(--text-muted);
       text-decoration: underline;
-      margin: 0 0.5rem;
+    }
+    
+    @media (max-width: 600px) {
+      .about-section {
+        padding: 1.5rem;
+      }
+      .about-section h1 {
+        font-size: 1.5rem;
+      }
+      header {
+        justify-content: center;
+      }
     }
   </style>
 </head>
@@ -286,17 +396,57 @@
 
   <header>
     <div class="logo">Решай.ру</div>
-    <div class="contacts">
-      <span>Связаться:</span>
-      <a href="https://t.me/leonovaru" target="_blank">Telegram (@leonovaru)</a>
-      <a href="https://vk.ru/leonovaru" target="_blank">VK (vk.ru/leonovaru)</a>
+    <div class="social-icons">
+      <!-- Telegram -->
+      <a href="https://t.me/leonovaru" target="_blank" aria-label="Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0088cc">
+          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.94z"/>
+        </svg>
+      </a>
+      <!-- VK -->
+      <a href="https://vk.ru/leonovaru" target="_blank" aria-label="VK">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0077FF">
+          <path d="M15.077 23.994c-8.995 0-14.158-6.195-14.372-16.486h4.597c.15 7.42 3.652 10.518 6.42 11.144v-11.144h4.376v6.368c2.723-.298 5.61-3.21 6.516-6.368h4.376c-.73 3.847-3.666 6.78-5.748 8.163 2.083 1.066 5.38 3.668 6.55 8.323h-4.757c-.89-3.32-3.626-5.83-6.937-6.15v6.15h-1.021z"/>
+        </svg>
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/79044766535" target="_blank" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366">
+          <path d="M12.031 0c-6.623 0-12 5.376-12 11.996 0 2.122.553 4.197 1.597 6.002l-1.628 5.952 6.096-1.598c1.758.966 3.743 1.478 5.794 1.478 6.621 0 11.998-5.374 11.998-11.996.002-6.625-5.375-12-12-12zm6.208 17.202c-.255.72-.942 1.348-1.583 1.49-.604.133-1.468.216-2.583-.153-2.923-1.004-5.35-3.354-6.307-4.607-1.127-1.466-2.127-3.557-1.077-5.353.473-.807 1.258-.962 1.62-.962.33 0 .524.013.71.013.255 0 .565-.05.908.775.36.87 1.018 2.477 1.107 2.656.09.18.156.402.043.64-.108.24-.162.388-.323.578-.163.19-.34.42-.486.568-.163.164-.336.342-.143.673.193.332.86 1.422 1.848 2.302 1.275 1.135 2.33 1.488 2.66 1.652.33.164.524.136.72-.086.195-.224.84-1.002 1.066-1.347.227-.344.453-.286.75-.173.298.114 1.884.887 2.207 1.05.324.162.538.24.618.374.08.134.08.774-.175 1.493z"/>
+        </svg>
+      </a>
     </div>
   </header>
 
   <main>
-    <h1>Выберите уровень тестирования</h1>
+    <section class="about-section">
+      <h1>Добро пожаловать в Решай.ру! Математика без страха для 7–11 классов 🚀</h1>
+      <p>Меня зовут <b>Марина Леонова</b>. Я преподаю математику уже 10 лет и создала этот проект, чтобы предмет перестал быть для школьников пыткой. Моя цель — не просто «натаскать» на типовые задания, а научить думать, уверенно решать задачи любой сложности и видеть логику.</p>
 
-    <div class="section-title">Школа</div>
+      <h3>Как проходят занятия в Решай.ру:</h3>
+      <ul>
+        <li>Объясняю темы понятным языком, через жизненные примеры и аналогии.</li>
+        <li>Учу думать, а не зубрить: мы много тренируемся на практике, ведь математику нужно именно решать.</li>
+        <li>Разбираем школьные домашние задания: сначала делаем аналогичные примеры вместе, затем ученик решает сам под моим строгим контролем.</li>
+      </ul>
+
+      <h3>Что важно для родителей:</h3>
+      <ul>
+        <li>Вы всегда в курсе происходящего: я даю регулярную обратную связь (что получилось, где трудности, что делаем дальше).</li>
+        <li>Я составляю понятный план подготовки к четверти, году или экзамену. Вы видите, за что платите и к какому результату мы идём.</li>
+        <li>Поддерживаю спокойный, уважительный тон: без давления, но с требовательностью к результату.</li>
+      </ul>
+
+      <h3>Организация процесса:</h3>
+      <p>💻 Онлайн через Zoom + интерактивная доска (все материалы сохраняются).<br>
+      ⏱ Урок 50 минут + 5 минут на подведение итогов и план до следующего занятия.</p>
+
+      <h3>🔥 С чего начать? С Летней диагностики!</h3>
+      <p>Сейчас идеальное время без стресса проверить текущий уровень перед учебным годом. Ученик решает диагностический вариант на моей IT-платформе (первая часть проверяется системой, вторую проверяю я лично). Затем мы созваниваемся, находим ошибки и составляем маршрут подготовки.</p>
+      <p>👉 <b>Пишите в сообщения, выбирайте класс ребёнка и вашу задачу (ОГЭ, ЕГЭ, ВПР или просто «подтянуть»), и я пришлю ссылку на диагностический вариант!</b></p>
+    </section>
+
+    <div class="section-title">Диагностика для школы</div>
     <div class="grid-container">
       <div class="card school" onclick="openModal('7 класс')">
         <h3>7 класс</h3>
@@ -316,7 +466,7 @@
       </div>
     </div>
 
-    <div class="section-title">Экзамены</div>
+    <div class="section-title">Подготовка к экзаменам</div>
     <div class="grid-container">
       <div class="card exam" onclick="openModal('ОГЭ')">
         <h3>ОГЭ</h3>
@@ -344,37 +494,36 @@
       <div class="modal-subtitle">Выберите подходящий тариф:</div>
 
       <div class="tariffs-group">
-        <label class="tariff-option">
-          <div class="tariff-info">
-            <input type="radio" name="tariff" value="500" checked>
-            <div class="tariff-text">
-              <div class="title">Базовый отчет</div>
-              <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
+        <!-- Тариф 1 -->
+        <label class="tariff-option active" id="tariffBox1">
+          <div class="tariff-header">
+            <div class="tariff-info">
+              <input type="radio" name="tariff" value="base" onchange="updateTariffUI()" checked>
+              <div class="tariff-text">
+                <div class="title">Базовый отчет</div>
+                <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
+              </div>
             </div>
+            <div class="tariff-price" id="basePriceLabel">500 ₽</div>
           </div>
-          <div class="tariff-price">500 ₽</div>
+          <div class="addon-box">
+            <input type="checkbox" id="addonSolutions" onchange="updateTariffUI()">
+            <label for="addonSolutions">добавить решение заданий (+99 ₽)</label>
+          </div>
         </label>
 
-        <label class="tariff-option">
-          <div class="tariff-info">
-            <input type="radio" name="tariff" value="1000">
-            <div class="tariff-text">
-              <div class="title">С разбором заданий</div>
-              <div class="desc">Диагностика + подробное решение всех заданий теста.</div>
+        <!-- Тариф 2 (бывший 3) -->
+        <label class="tariff-option" id="tariffBox2">
+          <div class="tariff-header">
+            <div class="tariff-info">
+              <input type="radio" name="tariff" value="tutor" onchange="updateTariffUI()">
+              <div class="tariff-text">
+                <div class="title">С личной встречей</div>
+                <div class="desc">Диагностика + занятие с репетитором по итогам диагностики 1 час.</div>
+              </div>
             </div>
+            <div class="tariff-price">1 500 ₽</div>
           </div>
-          <div class="tariff-price">1 000 ₽</div>
-        </label>
-
-        <label class="tariff-option">
-          <div class="tariff-info">
-            <input type="radio" name="tariff" value="2500">
-            <div class="tariff-text">
-              <div class="title">С личной встречей</div>
-              <div class="desc">Диагностика + встреча 1–1.5 часа с репетитором (разбор ошибок и план подготовки).</div>
-            </div>
-          </div>
-          <div class="tariff-price">2 500 ₽</div>
         </label>
       </div>
 
@@ -386,14 +535,15 @@
         <input type="tel" id="userPhone" placeholder="+7 (___) ___-__-__">
       </div>
 
-      <button class="btn-submit" onclick="startTestFlow()">Перейти к тестированию</button>
+      <button class="btn-submit" onclick="startTestFlow()">Оплатить и начать</button>
     </div>
   </div>
 
   <footer>
     <div>Марина Леонова | ИНН 721402977833</div>
     <div class="legal-links">
-      <a href="terms.html">Пользовательское соглашение</a> | 
+      <a href="terms.html">Пользовательское соглашение</a>
+      <span style="color:var(--text-muted)">|</span>
       <a href="privacy.html">Политика конфиденциальности</a>
     </div>
     <div style="margin-top: 0.5rem;">&copy; Решай.ру. Все права защищены.</div>
@@ -402,6 +552,7 @@
   <script>
     let selectedTest = null;
 
+    // Маска телефона
     const phoneInput = document.getElementById("userPhone");
     phoneInput.addEventListener("input", function (e) {
       let x = e.target.value.replace(/\D/g, "").match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
@@ -412,21 +563,57 @@
       }
     });
 
+    // Визуальное обновление тарифов и подсчет цены
+    function updateTariffUI() {
+      const isBaseSelected = document.querySelector('input[name="tariff"][value="base"]').checked;
+      const box1 = document.getElementById('tariffBox1');
+      const box2 = document.getElementById('tariffBox2');
+      const addonCheckbox = document.getElementById('addonSolutions');
+      const basePriceLabel = document.getElementById('basePriceLabel');
+
+      if (isBaseSelected) {
+        box1.classList.add('active');
+        box2.classList.remove('active');
+        // Считаем стоимость первого тарифа
+        if (addonCheckbox.checked) {
+          basePriceLabel.innerText = "599 ₽";
+        } else {
+          basePriceLabel.innerText = "500 ₽";
+        }
+      } else {
+        box1.classList.remove('active');
+        box2.classList.add('active');
+        // Если выбран тариф с репетитором, галочка возвращает базовую цену (чисто визуально)
+        basePriceLabel.innerText = "500 ₽";
+        addonCheckbox.checked = false;
+      }
+    }
+
+    // Открытие модалки
     function openModal(testName) {
       selectedTest = testName;
       document.getElementById('modalTitle').innerText = `Диагностика: ${testName}`;
+      
+      // Сброс формы
+      document.getElementById("userName").value = "";
+      document.getElementById("userPhone").value = "";
+      document.querySelector('input[name="tariff"][value="base"]').checked = true;
+      document.getElementById('addonSolutions').checked = false;
+      updateTariffUI();
+
       document.getElementById('modal').style.display = 'flex';
     }
 
+    // Закрытие модалки
     function closeModal() {
       document.getElementById('modal').style.display = 'none';
     }
 
+    // Логика кнопки оплаты
     async function startTestFlow() {
       const name = document.getElementById("userName").value.trim();
       const phoneVal = phoneInput.value.replace(/\D/g, "");
-      const tariffEl = document.querySelector('input[name="tariff"]:checked');
-
+      
       if (!name) {
         alert("Пожалуйста, введите ваше имя!");
         return;
@@ -436,7 +623,17 @@
         return;
       }
 
-      const tariffPrice = tariffEl ? tariffEl.value : "500";
+      // Вычисление итоговой суммы
+      let finalPrice = 500;
+      const isBase = document.querySelector('input[name="tariff"][value="base"]').checked;
+      const hasAddon = document.getElementById('addonSolutions').checked;
+
+      if (isBase) {
+        finalPrice = hasAddon ? 599 : 500;
+      } else {
+        finalPrice = 1500;
+      }
+
       const submitBtn = document.querySelector('.btn-submit');
       submitBtn.disabled = true;
       submitBtn.innerText = "Создаем платеж...";
@@ -446,8 +643,8 @@
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            amount: tariffPrice,
-            description: `Тест: ${selectedTest} (Тариф ${tariffPrice} ₽)`,
+            amount: finalPrice,
+            description: `Тест: ${selectedTest} (Тариф ${finalPrice} ₽)`,
             customerName: name,
             customerPhone: phoneInput.value,
             testName: selectedTest
@@ -461,13 +658,13 @@
         } else {
           alert("Ошибка при создании платежа. Попробуйте позже.");
           submitBtn.disabled = false;
-          submitBtn.innerText = "Перейти к тестированию";
+          submitBtn.innerText = "Оплатить и начать";
         }
       } catch (error) {
         console.error("Ошибка:", error);
         alert("Не удалось связаться с сервером оплаты.");
         submitBtn.disabled = false;
-        submitBtn.innerText = "Перейти к тестированию";
+        submitBtn.innerText = "Оплатить и начать";
       }
     }
   </script>
