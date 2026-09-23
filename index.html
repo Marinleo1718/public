@@ -3,385 +3,655 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Решай.ру | Математика без страха</title>
-  
-  <script>
-    window.MathJax = { tex: { inlineMath: [['\\(', '\\)'], ['$', '$']] }, svg: { fontCache: 'local' } };
-  </script>
-  <script id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-
+  <title>Решай.ру — Образовательная платформа Марины Леоновой</title>
   <style>
     :root {
-      --primary-dark: #1b365d;
-      --primary-blue: #2563eb;
-      --bg-light: #f4f6f9;
+      --primary: #10b981;
+      --primary-hover: #059669;
+      --bg-color: #f8fafc;
       --card-bg: #ffffff;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      
+      --school-bg: #eff6ff;
+      --school-border: #3b82f6;
+      --school-text: #1d4ed8;
+      
+      --exam-bg: #f0fdf4;
+      --exam-border: #10b981;
+      --exam-text: #047857;
     }
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif; background-color: var(--bg-light); color: #333; margin: 0; padding: 0; }
-    
-    .container { max-width: 1000px; margin: 0 auto; padding: 20px; }
 
-    /* Главный экран */
-    .hero { display: flex; background: var(--card-bg); border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); overflow: hidden; margin-top: 30px; margin-bottom: 40px; flex-wrap: wrap; }
-    .hero-img { flex: 1; min-width: 300px; }
-    .hero-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .hero-content { flex: 2; padding: 40px; min-width: 300px; }
-    .hero-content h1 { color: var(--primary-blue); font-size: 1.8em; margin-top: 0; margin-bottom: 20px; line-height: 1.3; }
-    .hero-content p { font-size: 1.05em; line-height: 1.6; color: #475569; margin-bottom: 20px; }
-    
-    /* Настройки перед тестом */
-    .setup-box { background: #e0e7ff; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 40px; border: 1px solid #c7d2fe; }
-    .setup-box h3 { margin-top: 0; color: var(--primary-dark); }
-    .grade-select { padding: 10px 15px; font-size: 1.1em; border-radius: 8px; border: 1px solid #cbd5e1; outline: none; margin-bottom: 15px; width: 100%; max-width: 250px; cursor: pointer; }
-    
-    /* Тарифы */
-    .tariffs { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; margin-bottom: 25px; }
-    .tariff-card { background: var(--card-bg); border: 2px solid #e2e8f0; border-radius: 12px; padding: 30px 20px; width: 280px; transition: 0.3s; text-align: center; background: #fff;}
-    .tariff-card:hover { border-color: var(--primary-blue); box-shadow: 0 4px 15px rgba(37, 99, 235, 0.1); }
-    .tariff-title { font-size: 1.2em; font-weight: bold; color: var(--primary-dark); margin-bottom: 10px; }
-    .tariff-price { font-size: 2.2em; font-weight: bold; color: var(--primary-blue); margin-bottom: 20px; }
-    .btn-pay { background: var(--primary-blue); color: #fff; border: none; padding: 12px 20px; border-radius: 8px; font-size: 1.1em; cursor: pointer; width: 100%; font-weight: bold; transition: 0.2s; }
-    .btn-pay:hover { background: #1d4ed8; }
-    
-    .extra-option { display: inline-flex; align-items: center; cursor: pointer; font-weight: 600; color: var(--primary-dark); font-size: 1.1em; margin-top: 15px;}
-    .extra-option input { margin-right: 12px; transform: scale(1.3); cursor: pointer; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      line-height: 1.5;
+    }
 
-    /* Стили теста */
-    h2.block-title { margin-top: 40px; color: var(--primary-dark); border-bottom: 2px solid #e2e8f0; padding-bottom: 8px; font-size: 1.4em; }
-    h3.theme-title { margin-top: 25px; color: var(--primary-blue); font-size: 1.2em; }
-    .card { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 15px; }
-    .question-title { font-weight: 600; font-size: 1.1em; margin-bottom: 15px; line-height: 1.5; }
-    .options { display: flex; flex-direction: column; gap: 8px; }
-    .option-label { display: flex; align-items: center; background: #fff; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-    .option-label:hover { background: #eff6ff; }
-    .option-label input { margin-right: 10px; }
-    .text-input { width: 100%; max-width: 350px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 1.05em; }
-    .btn-check { background: var(--primary-blue); color: #fff; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 15px; }
-    .feedback { display: inline-block; margin-left: 15px; font-weight: bold; font-size: 1.05em; }
-    .btn-final { display: block; width: 100%; padding: 16px; background: #16a34a; color: white; border: none; border-radius: 8px; font-size: 1.2em; font-weight: bold; cursor: pointer; margin-top: 40px; }
+    header {
+      background: var(--card-bg);
+      border-bottom: 1px solid var(--border-color);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #4f46e5;
+    }
+
+    .social-icons {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+    }
+
+    .social-icons a {
+      display: inline-flex;
+      transition: transform 0.2s ease;
+    }
+
+    .social-icons a:hover {
+      transform: scale(1.1);
+    }
+
+    .social-icons svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    main {
+      flex: 1;
+      max-width: 1000px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      box-sizing: border-box;
+    }
+
+    /* Блок Обо мне */
+    .about-section {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 3rem;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--border-color);
+    }
+
+    .about-section h1 {
+      color: #4f46e5;
+      margin-top: 0;
+      font-size: 1.8rem;
+      line-height: 1.3;
+    }
+
+    .about-section h3 {
+      color: var(--text-main);
+      margin-top: 1.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    .about-section p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+    }
+
+    .about-section ul {
+      color: var(--text-muted);
+      margin-top: 0;
+      padding-left: 1.2rem;
+    }
+
+    .about-section li {
+      margin-bottom: 0.4rem;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 2rem 0 1rem;
+      color: var(--text-main);
+      text-align: center;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .card {
+      border: 2px solid;
+      border-radius: 12px;
+      padding: 1.5rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card h3 {
+      margin: 0 0 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .card p {
+      margin: 0;
+      font-size: 0.95rem;
+      opacity: 0.9;
+    }
+
+    /* Цвета для школ */
+    .card.school {
+      background-color: var(--school-bg);
+      border-color: var(--school-border);
+      color: var(--school-text);
+    }
+    .card.school:hover {
+      box-shadow: 0 6px 12px rgba(59, 130, 246, 0.15);
+    }
     
-    /* Стили подробного отчета */
-    #result-wrapper { display: none; margin-top: 40px; }
-    .report-block { background: #fff; padding: 30px; margin-bottom: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border-radius: 12px; }
-    .detail-card { border-left: 5px solid #cbd5e1; padding: 15px; margin-bottom: 15px; background: #f8fafc; border-radius: 0 8px 8px 0; }
-    .detail-card.correct { border-left-color: #16a34a; background: #f0fdf4; }
-    .detail-card.incorrect { border-left-color: #ef4444; background: #fef2f2; }
-    .detail-card div { margin-bottom: 8px; font-size: 1.05em; }
-    .detail-card div:last-child { margin-bottom: 0; }
-    .badge { padding: 4px 8px; border-radius: 6px; font-size: 0.85em; font-weight: bold; margin-left: 10px; display: inline-block; }
-    .badge-ok { background: #dcfce7; color: #15803d; }
-    .badge-err { background: #fee2e2; color: #b91c1c; }
+    /* Цвета для экзаменов */
+    .card.exam {
+      background-color: var(--exam-bg);
+      border-color: var(--exam-border);
+      color: var(--exam-text);
+    }
+    .card.exam:hover {
+      box-shadow: 0 6px 12px rgba(16, 185, 129, 0.15);
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+      box-sizing: border-box;
+      backdrop-filter: blur(4px);
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      padding: 2rem;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      box-sizing: border-box;
+      max-height: 95vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-content h2 {
+      margin: 0;
+      font-size: 1.35rem;
+      color: var(--text-main);
+    }
+
+    .close-x {
+      font-size: 1.5rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .close-x:hover {
+      color: var(--text-main);
+    }
+
+    .modal-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="tel"] {
+      width: 100%;
+      padding: 0.85rem;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--primary);
+    }
+
+    .tariffs-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .tariff-option {
+      border: 2px solid var(--border-color);
+      padding: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tariff-option:hover {
+      border-color: #cbd5e1;
+    }
+    
+    .tariff-option.active {
+      border-color: var(--primary);
+      background-color: #f0fdf4;
+    }
+
+    .tariff-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0.25rem;
+    }
+
+    .tariff-info {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-start;
+      flex: 1;
+    }
+
+    .tariff-info input[type="radio"] {
+      margin-top: 4px;
+      transform: scale(1.2);
+    }
+
+    .tariff-text .title {
+      font-weight: 700;
+      color: var(--text-main);
+      font-size: 1.05rem;
+    }
+
+    .tariff-text .desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin-top: 0.2rem;
+    }
+
+    .tariff-price {
+      font-weight: 800;
+      font-size: 1.15rem;
+      color: var(--text-main);
+      white-space: nowrap;
+      margin-left: 1rem;
+    }
+
+    /* Галочка дополнительных опций */
+    .addon-box {
+      margin-top: 0.75rem;
+      margin-left: 28px;
+      padding-top: 0.75rem;
+      border-top: 1px dashed var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.9rem;
+      color: var(--text-main);
+    }
+    .addon-box input[type="checkbox"] {
+      transform: scale(1.2);
+      cursor: pointer;
+    }
+
+    .btn-submit {
+      width: 100%;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      padding: 1rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover {
+      background-color: var(--primary-hover);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border-color);
+      background: var(--card-bg);
+      line-height: 1.6;
+    }
+
+    footer .legal-links {
+      margin-top: 0.5rem;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    footer .legal-links a {
+      color: var(--text-muted);
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 600px) {
+      .about-section {
+        padding: 1.5rem;
+      }
+      .about-section h1 {
+        font-size: 1.5rem;
+      }
+      header {
+        justify-content: center;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div id="main-content" class="container">
-  <!-- Главный блок -->
-  <div class="hero">
-    <div class="hero-img">
-      <img src="image_22fdf5.jpg" alt="Марина Леонова" onerror="this.src='https://via.placeholder.com/400x500?text=Фото+Преподавателя'">
+  <header>
+    <div class="logo">Решай.ру</div>
+    <div class="social-icons">
+      <!-- Telegram -->
+      <a href="https://t.me/leonovaru" target="_blank" aria-label="Telegram">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0088cc">
+          <path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.94z"/>
+        </svg>
+      </a>
+      <!-- VK -->
+      <a href="https://vk.ru/leonovaru" target="_blank" aria-label="VK">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#0077FF">
+          <path d="M15.077 23.994c-8.995 0-14.158-6.195-14.372-16.486h4.597c.15 7.42 3.652 10.518 6.42 11.144v-11.144h4.376v6.368c2.723-.298 5.61-3.21 6.516-6.368h4.376c-.73 3.847-3.666 6.78-5.748 8.163 2.083 1.066 5.38 3.668 6.55 8.323h-4.757c-.89-3.32-3.626-5.83-6.937-6.15v6.15h-1.021z"/>
+        </svg>
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/79044766535" target="_blank" aria-label="WhatsApp">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366">
+          <path d="M12.031 0c-6.623 0-12 5.376-12 11.996 0 2.122.553 4.197 1.597 6.002l-1.628 5.952 6.096-1.598c1.758.966 3.743 1.478 5.794 1.478 6.621 0 11.998-5.374 11.998-11.996.002-6.625-5.375-12-12-12zm6.208 17.202c-.255.72-.942 1.348-1.583 1.49-.604.133-1.468.216-2.583-.153-2.923-1.004-5.35-3.354-6.307-4.607-1.127-1.466-2.127-3.557-1.077-5.353.473-.807 1.258-.962 1.62-.962.33 0 .524.013.71.013.255 0 .565-.05.908.775.36.87 1.018 2.477 1.107 2.656.09.18.156.402.043.64-.108.24-.162.388-.323.578-.163.19-.34.42-.486.568-.163.164-.336.342-.143.673.193.332.86 1.422 1.848 2.302 1.275 1.135 2.33 1.488 2.66 1.652.33.164.524.136.72-.086.195-.224.84-1.002 1.066-1.347.227-.344.453-.286.75-.173.298.114 1.884.887 2.207 1.05.324.162.538.24.618.374.08.134.08.774-.175 1.493z"/>
+        </svg>
+      </a>
     </div>
-    <div class="hero-content">
-      <h1>Добро пожаловать в Решай.ру!<br>Математика без страха 🚀</h1>
-      <p>Меня зовут <b>Марина Леонова</b>. Я преподаю математику уже 10 лет и создала этот проект, чтобы научить думать, уверенно решать задачи любой сложности и видеть логику, а не просто зубрить.</p>
-    </div>
-  </div>
+  </header>
 
-  <!-- Единый блок настроек и оплаты -->
-  <div class="setup-box">
-    <h3>Шаг 1. Выберите класс для тестирования</h3>
-    <select id="grade-select" class="grade-select">
-      <option value="9" selected>9 класс (ОГЭ)</option>
-      <option value="8">8 класс</option>
-      <option value="11">11 класс (ЕГЭ)</option>
-    </select>
-    
-    <h3>Шаг 2. Выберите формат разбора</h3>
-    <div class="tariffs">
-      <div class="tariff-card">
-        <div class="tariff-title">Базовый тариф</div>
-        <div class="tariff-price"><span id="price-base">1200</span> ₽</div>
-        <button class="btn-pay" onclick="startTestFlow()">Оплатить и начать</button>
+  <main>
+    <section class="about-section">
+      <h1>Добро пожаловать в Решай.ру! Математика без страха для 7–11 классов 🚀</h1>
+      <p>Меня зовут <b>Марина Леонова</b>. Я преподаю математику уже 10 лет и создала этот проект, чтобы предмет перестал быть для школьников пыткой. Моя цель — не просто «натаскать» на типовые задания, а научить думать, уверенно решать задачи любой сложности и видеть логику.</p>
+
+      <h3>Как проходят занятия в Решай.ру:</h3>
+      <ul>
+        <li>Объясняю темы понятным языком, через жизненные примеры и аналогии.</li>
+        <li>Учу думать, а не зубрить: мы много тренируемся на практике, ведь математику нужно именно решать.</li>
+        <li>Разбираем школьные домашние задания: сначала делаем аналогичные примеры вместе, затем ученик решает сам под моим строгим контролем.</li>
+      </ul>
+    </section>
+
+    <div class="section-title">Диагностика для школы</div>
+    <div class="grid-container">
+      <div class="card school" onclick="openModal('7 класс')">
+        <h3>7 класс</h3>
+        <p>Диагностика знаний</p>
       </div>
-      <div class="tariff-card" style="border-color: var(--primary-blue);">
-        <div class="tariff-title">С личной встречей</div>
-        <div class="tariff-price"><span id="price-personal">1800</span> ₽</div>
-        <button class="btn-pay" onclick="startTestFlow()">Оплатить и начать</button>
+      <div class="card school" onclick="openModal('8 класс')">
+        <h3>8 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="openModal('9 класс')">
+        <h3>9 класс</h3>
+        <p>Диагностика знаний</p>
+      </div>
+      <div class="card school" onclick="openModal('10 класс')">
+        <h3>10 класс</h3>
+        <p>Диагностика знаний</p>
       </div>
     </div>
-    <label class="extra-option">
-      <input type="checkbox" id="extra-solution" onchange="updatePrices()">
-      Добавить файл с подробным решением всех заданий (+99 ₽)
-    </label>
-  </div>
-</div>
 
-<!-- Блок тестирования -->
-<div id="quiz-screen" class="container" style="display: none; background: #fff; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-  <h1 style="text-align:center; color: var(--primary-dark);">Диагностический тест: <span id="display-grade"></span></h1>
-  <p style="text-align:center; color:#64748b; font-size:1.1em;">Решайте задания по порядку. Если ответ — десятичная дробь, используйте запятую (например, 0,5).</p>
-  <div id="quiz-container"></div>
-  <button class="btn-final" onclick="checkAll()">Завершить тест и получить подробный анализ</button>
-</div>
+    <div class="section-title">Подготовка к экзаменам</div>
+    <div class="grid-container">
+      <div class="card exam" onclick="openModal('ОГЭ')">
+        <h3>ОГЭ</h3>
+        <p>Полный разбор экзамена</p>
+      </div>
+      <div class="card exam" onclick="openModal('ЕГЭ База')">
+        <h3>ЕГЭ База</h3>
+        <p>Уверенное решение</p>
+      </div>
+      <div class="card exam" onclick="openModal('ЕГЭ Профиль')">
+        <h3>ЕГЭ Профиль</h3>
+        <p>Максимальный балл</p>
+      </div>
+    </div>
+  </main>
 
-<!-- Блок с детальным отчетом -->
-<div id="result-wrapper" class="container">
-  <div id="result"></div>
-</div>
+  <!-- Модальное окно -->
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="modalTitle">Диагностика</h2>
+        <button class="close-x" onclick="closeModal()">✕</button>
+      </div>
+      
+      <div class="modal-subtitle">Выберите подходящий тариф:</div>
 
-<script>
-  const basePrices = { base: 1200, personal: 1800 };
-  let currentQuizData = []; // Сюда подгрузим нужный класс
-
-  function updatePrices() {
-    const addSolution = document.getElementById('extra-solution').checked;
-    const extraPrice = addSolution ? 99 : 0;
-    document.getElementById('price-base').innerText = basePrices.base + extraPrice;
-    document.getElementById('price-personal').innerText = basePrices.personal + extraPrice;
-  }
-
-  // ЕДИНАЯ БАЗА ДАННЫХ ДЛЯ ВСЕХ КЛАССОВ
-  const allTestsData = {
-    "9": [
-      {
-        block: "Блок 1. Арифметика и алгебраические преобразования",
-        themes: [
-          { theme: "1. Вычисления и рациональные дроби", questions: [
-              { type: "text", a: "0,05", q: "Вычислите: \\(\\frac{3}{4} - \\frac{5}{6} \\cdot 1,8 + \\sqrt{0,64}\\)" },
-              { type: "radio", a: "0", q: "Сократите дробь: \\(\\frac{a^2 - 9}{2a^2 + 6a}\\)", options: ["\\(\\frac{a-3}{2a}\\)", "\\(\\frac{a+3}{2a}\\)", "\\(a-3\\)", "\\(\\frac{a-3}{2}\\)"] },
-              { type: "radio", a: "1", q: "Найдите значение выражения \\(\\frac{x^2 - y^2}{xy} \\cdot \\frac{x}{x + y}\\) при \\(x = \\sqrt{5} - 1\\), \\(y = \\sqrt{5} + 1\\).", options: ["\\(1-\\sqrt{5}\\)", "\\(\\frac{1-\\sqrt{5}}{2}\\)", "\\(-1\\)", "\\(2\\)"] }
-          ]},
-          { theme: "2. Степени и корни", questions: [
-              { type: "text", a: "8", q: "Упростите выражение: \\(\\frac{(2^3 \\cdot 2^5)^2}{2^{13}}\\)" },
-              { type: "radio", a: "1", q: "Расположите в порядке возрастания числа: \\(3\\sqrt{5}\\), \\(7\\), \\(5\\sqrt{3}\\)", options: ["\\(7; 3\\sqrt{5}; 5\\sqrt{3}\\)", "\\(3\\sqrt{5}; 7; 5\\sqrt{3}\\)", "\\(5\\sqrt{3}; 7; 3\\sqrt{5}\\)"] },
-              { type: "radio", a: "0", q: "Освободитесь от иррациональности в знаменателе: \\(\\frac{6}{\\sqrt{7} - 1}\\)", options: ["\\(\\sqrt{7}+1\\)", "\\(\\sqrt{7}-1\\)", "\\(6\\sqrt{7}\\)"] }
-          ]}
-        ]
-      },
-      {
-        block: "Блок 2. Уравнения и системы уравнений",
-        themes: [
-          { theme: "3. Линейные и квадратные уравнения", questions: [
-              { type: "radio", a: "2", q: "Решите линейное уравнение: \\(3(x - 2) - 2(2x + 1) = 5 - x\\)", options: ["\\(1\\)", "\\(0\\)", "Нет решений"] },
-              { type: "text", a: "2", q: "Решите уравнение: \\(2x^2 - 5x + 2 = 0\\). В ответ запишите больший корень." },
-              { type: "text", a: "3", q: "Один из корней уравнения \\(x^2 + px - 18 = 0\\) равен \\(3\\). Найдите значение \\(p\\)." }
-          ]}
-        ]
-      },
-      {
-        block: "Блок 3. Геометрия (Планиметрия)",
-        themes: [
-          { theme: "4. Треугольники и их свойства", questions: [
-              { type: "text", a: "50", q: "В равнобедренном треугольнике угол при вершине \\(80^\\circ\\). Найдите угол при основании." },
-              { type: "text", a: "10", q: "Катеты прямоугольного треугольника 6 и 8. Найдите гипотенузу." },
-              { type: "radio", a: "0", q: "Стороны треугольника 7, 8 и 9. Найдите его площадь.", options: ["\\(12\\sqrt{5}\\)", "\\(14\\sqrt{3}\\)", "\\(16\\)"] }
-          ]}
-        ]
-      }
-      // Оставил часть 9 класса для краткости кода, логика абсолютно та же для всех 5 блоков
-    ],
-    "8": [
-      {
-        block: "Блок 1. Повторение 7 класса и дроби",
-        themes: [
-          { theme: "1. Линейные функции и уравнения", questions: [
-              { type: "text", a: "4", q: "Решите уравнение: \\(2(x-1) = x + 2\\)" },
-              { type: "radio", a: "1", q: "График какой функции проходит через начало координат?", options: ["\\(y = 2x + 1\\)", "\\(y = -3x\\)", "\\(y = 5\\)"] }
-          ]}
-        ]
-      }
-      // Сюда будешь добавлять массивы для 8 класса
-    ],
-    "11": [
-      {
-        block: "Блок 1. Алгебра и начала анализа",
-        themes: [
-          { theme: "1. Производная и ее применение", questions: [
-              { type: "text", a: "0", q: "Найдите точку минимума функции \\(y = x^2 - 4x + 5\\)" }
-          ]}
-        ]
-      }
-      // Сюда для 11 класса
-    ]
-  };
-
-  async function safeTypeset(targetElement) {
-    if (window.MathJax && typeof MathJax.typesetPromise === 'function') {
-      try { await MathJax.typesetPromise(targetElement ? [targetElement] : []); } catch (err) {}
-    }
-  }
-
-  // Запуск теста выбранного класса
-  async function startTestFlow() {
-    const gradeSelect = document.getElementById('grade-select');
-    const selectedGrade = gradeSelect.value;
-    const gradeText = gradeSelect.options[gradeSelect.selectedIndex].text;
-    
-    currentQuizData = allTestsData[selectedGrade]; // Подгружаем нужный массив!
-    
-    document.getElementById('display-grade').innerText = gradeText;
-    document.getElementById('main-content').style.display = 'none';
-    document.getElementById('quiz-screen').style.display = 'block';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    await renderQuiz();
-  }
-
-  async function renderQuiz() {
-    let html = "";
-    let qIndex = 1;
-
-    currentQuizData.forEach((block, bIdx) => {
-      html += `<h2 class="block-title">${block.block}</h2>`;
-      block.themes.forEach((theme, tIdx) => {
-        html += `<h3 class="theme-title">${theme.theme}</h3>`;
-        theme.questions.forEach((qDef, qIdx) => {
-          const qId = `q_${bIdx}_${tIdx}_${qIdx}`;
-          html += `<div class="card" id="card_${qId}">`;
-          html += `<div class="question-title">№${qIndex}. ${qDef.q}</div>`;
-          
-          if (qDef.type === "radio") {
-            html += `<div class="options" id="opt_${qId}">`;
-            qDef.options.forEach((opt, oIdx) => {
-              html += `<label class="option-label"><input type="radio" name="${qId}" value="${oIdx}"> ${opt}</label>`;
-            });
-            html += `</div>`;
-          } else {
-            html += `<input type="text" class="text-input" id="${qId}" placeholder="Ваш ответ">`;
-          }
-
-          html += `<div>`;
-          html += `<button class="btn-check" id="btn_${qId}" onclick="checkSingle(${bIdx}, ${tIdx}, ${qIdx})">Ответить</button>`;
-          html += `<div class="feedback" id="feed_${qId}"></div></div>`;
-          html += `</div>`;
-          qIndex++;
-        });
-      });
-    });
-
-    const quizContainer = document.getElementById("quiz-container");
-    quizContainer.innerHTML = html;
-    await safeTypeset(quizContainer);
-  }
-
-  function checkSingle(bIdx, tIdx, qIdx) {
-    const qDef = currentQuizData[bIdx].themes[tIdx].questions[qIdx];
-    const qId = `q_${bIdx}_${tIdx}_${qIdx}`;
-    let userAns = "";
-
-    if (qDef.type === "radio") {
-      const els = document.getElementsByName(qId);
-      for (let el of els) { if (el.checked) userAns = el.value; }
-      qDef.userText = (userAns !== "") ? qDef.options[userAns] : "<i>Ответ не выбран</i>";
-      qDef.correctText = qDef.options[qDef.a];
-    } else {
-      userAns = document.getElementById(qId).value.trim().replace(/\./g, ",");
-      qDef.userText = (userAns !== "") ? userAns : "<i>Ответ не введен</i>";
-      qDef.correctText = qDef.a;
-    }
-
-    const feedEl = document.getElementById(`feed_${qId}`);
-    const btnEl = document.getElementById(`btn_${qId}`);
-
-    if (userAns === "") {
-      feedEl.innerHTML = "<span style='color: #dc2626'>Введите или выберите ответ!</span>";
-      qDef.isCorrect = false;
-      return;
-    }
-
-    if (userAns === qDef.a) {
-      feedEl.innerHTML = "<span style='color: #16a34a'>Ответ принят ✅</span>";
-      qDef.isCorrect = true;
-      btnEl.style.display = "none";
-      if (qDef.type === "radio") {
-        document.getElementsByName(qId).forEach(el => el.disabled = true);
-      } else {
-        document.getElementById(qId).disabled = true;
-      }
-    } else {
-      feedEl.innerHTML = "<span style='color: #475569'>Ответ записан</span>";
-      qDef.isCorrect = false;
-      btnEl.style.display = "none";
-      if (qDef.type === "radio") {
-        document.getElementsByName(qId).forEach(el => el.disabled = true);
-      } else {
-        document.getElementById(qId).disabled = true;
-      }
-    }
-  }
-
-  // ГЕНЕРАЦИЯ ПОДРОБНОГО ОТЧЕТА ПО КАЖДОМУ БЛОКУ И ВОПРОСУ
-  async function checkAll() {
-    let totalCorrect = 0;
-    let totalQuestions = 0;
-    let reportHtml = "";
-    let qIndex = 1;
-
-    currentQuizData.forEach((block, bIdx) => {
-      let blockHtml = "";
-      let blockCorrect = 0;
-      let blockTotal = 0;
-
-      block.themes.forEach((theme, tIdx) => {
-        blockHtml += `<h3 style="color: var(--primary-blue); margin-top: 20px;">${theme.theme}</h3>`;
-        
-        theme.questions.forEach((qDef, qIdx) => {
-          // Вызываем проверку принудительно, если ученик не нажимал "Ответить" у некоторых задач
-          if (qDef.isCorrect === undefined) checkSingle(bIdx, tIdx, qIdx);
-          
-          if (qDef.isCorrect) blockCorrect++;
-          blockTotal++;
-
-          const statusClass = qDef.isCorrect ? "correct" : "incorrect";
-          const badgeHtml = qDef.isCorrect 
-            ? `<span class="badge badge-ok">ВЕРНО</span>` 
-            : `<span class="badge badge-err">ОШИБКА</span>`;
-
-          // Карточка детального разбора конкретной задачи
-          blockHtml += `
-            <div class="detail-card ${statusClass}">
-              <div><b>Задание ${qIndex}:</b> ${qDef.q}</div>
-              <div><b>Ваш ответ:</b> ${qDef.userText} ${badgeHtml}</div>
-              ${!qDef.isCorrect ? `<div><b>Правильный ответ:</b> ${qDef.correctText}</div>` : ""}
+      <div class="tariffs-group">
+        <!-- Тариф 1 -->
+        <label class="tariff-option active" id="tariffBox1">
+          <div class="tariff-header">
+            <div class="tariff-info">
+              <input type="radio" name="tariff" value="base" onchange="updateTariffUI()" checked>
+              <div class="tariff-text">
+                <div class="title">Базовый отчет</div>
+                <div class="desc">Пройти диагностику и получить детальные результаты в PDF-формате.</div>
+              </div>
             </div>
-          `;
-          qIndex++;
-        });
-      });
-
-      // Обертка блока
-      reportHtml += `
-        <div class="report-block">
-          <h2 style="border-bottom: 2px solid #e2e8f0; padding-bottom: 10px;">${block.block}</h2>
-          <div style="font-size: 1.1em; font-weight: bold; margin-bottom: 15px; color: #475569;">
-            Результат по блоку: ${blockCorrect} из ${blockTotal}
+            <div class="tariff-price" id="basePriceLabel">500 ₽</div>
           </div>
-          ${blockHtml}
-        </div>
-      `;
-      totalCorrect += blockCorrect;
-      totalQuestions += blockTotal;
+          <div class="addon-box">
+            <input type="checkbox" id="addonSolutions" onchange="updateTariffUI()">
+            <label for="addonSolutions">добавить решение заданий (+99 ₽)</label>
+          </div>
+        </label>
+
+        <!-- Тариф 2 (бывший 3) -->
+        <label class="tariff-option" id="tariffBox2">
+          <div class="tariff-header">
+            <div class="tariff-info">
+              <input type="radio" name="tariff" value="tutor" onchange="updateTariffUI()">
+              <div class="tariff-text">
+                <div class="title">С личной встречей</div>
+                <div class="desc">Диагностика + занятие с репетитором по итогам диагностики 1 час.</div>
+              </div>
+            </div>
+            <div class="tariff-price">1 500 ₽</div>
+          </div>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <input type="text" id="userName" placeholder="Ваше Имя">
+      </div>
+
+      <div class="form-group">
+        <input type="tel" id="userPhone" placeholder="+7 (___) ___-__-__">
+      </div>
+
+      <button class="btn-submit" onclick="startTestFlow()">Оплатить и начать</button>
+    </div>
+  </div>
+
+  <footer>
+    <div>Марина Леонова | ИНН 721402977833</div>
+    <div class="legal-links">
+      <a href="terms.html">Пользовательское соглашение</a>
+      <span style="color:var(--text-muted)">|</span>
+      <a href="privacy.html">Политика конфиденциальности</a>
+    </div>
+    <div style="margin-top: 0.5rem;">&copy; Решай.ру. Все права защищены.</div>
+  </footer>
+
+  <script>
+    let selectedTest = null;
+
+    // Маска телефона
+    const phoneInput = document.getElementById("userPhone");
+    phoneInput.addEventListener("input", function (e) {
+      let x = e.target.value.replace(/\D/g, "").match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,2})(\d{0,2})/);
+      if (!x[2]) {
+        e.target.value = x[1] ? "+7 (" + x[1] : "";
+      } else {
+        e.target.value = "+7 (" + x[2] + (x[3] ? ") " + x[3] : "") + (x[4] ? "-" + x[4] : "") + (x[5] ? "-" + x[5] : "");
+      }
     });
 
-    const percent = Math.round((totalCorrect / totalQuestions) * 100);
-    const headerHtml = `
-      <div style="background: var(--primary-dark); color: white; padding: 30px; border-radius: 12px; text-align: center; margin-bottom: 30px;">
-        <h2 style="margin-top:0; color: #fff;">Диагностика завершена!</h2>
-        <div style="font-size: 2em; font-weight: bold; color: #60a5fa;">${totalCorrect} из ${totalQuestions}</div>
-        <p style="font-size: 1.2em; opacity: 0.9;">Процент выполнения: ${percent}%</p>
-      </div>
-    `;
+    // Визуальное обновление тарифов и подсчет цены
+    function updateTariffUI() {
+      const isBaseSelected = document.querySelector('input[name="tariff"][value="base"]').checked;
+      const box1 = document.getElementById('tariffBox1');
+      const box2 = document.getElementById('tariffBox2');
+      const addonCheckbox = document.getElementById('addonSolutions');
+      const basePriceLabel = document.getElementById('basePriceLabel');
 
-    const resultDiv = document.getElementById("result");
-    resultDiv.innerHTML = headerHtml + reportHtml;
-    
-    document.getElementById("quiz-screen").style.display = "none";
-    document.getElementById("result-wrapper").style.display = "block";
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-    
-    await safeTypeset(resultDiv);
-  }
-</script>
+      if (isBaseSelected) {
+        box1.classList.add('active');
+        box2.classList.remove('active');
+        // Считаем стоимость первого тарифа
+        if (addonCheckbox.checked) {
+          basePriceLabel.innerText = "599 ₽";
+        } else {
+          basePriceLabel.innerText = "500 ₽";
+        }
+      } else {
+        box1.classList.remove('active');
+        box2.classList.add('active');
+        // Если выбран тариф с репетитором, галочка возвращает базовую цену (чисто визуально)
+        basePriceLabel.innerText = "500 ₽";
+        addonCheckbox.checked = false;
+      }
+    }
 
+    // Открытие модалки
+    function openModal(testName) {
+      selectedTest = testName;
+      document.getElementById('modalTitle').innerText = `Диагностика: ${testName}`;
+      
+      // Сброс формы
+      document.getElementById("userName").value = "";
+      document.getElementById("userPhone").value = "";
+      document.querySelector('input[name="tariff"][value="base"]').checked = true;
+      document.getElementById('addonSolutions').checked = false;
+      updateTariffUI();
+
+      document.getElementById('modal').style.display = 'flex';
+    }
+
+    // Закрытие модалки
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Логика кнопки оплаты
+    async function startTestFlow() {
+      const name = document.getElementById("userName").value.trim();
+      const phoneVal = phoneInput.value.replace(/\D/g, "");
+      
+      if (!name) {
+        alert("Пожалуйста, введите ваше имя!");
+        return;
+      }
+      if (phoneVal.length !== 11) {
+        alert("Пожалуйста, введите корректный номер телефона!");
+        return;
+      }
+
+      // Вычисление итоговой суммы
+      let finalPrice = 500;
+      const isBase = document.querySelector('input[name="tariff"][value="base"]').checked;
+      const hasAddon = document.getElementById('addonSolutions').checked;
+
+      if (isBase) {
+        finalPrice = hasAddon ? 599 : 500;
+      } else {
+        finalPrice = 1500;
+      }
+
+      const submitBtn = document.querySelector('.btn-submit');
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Создаем платеж...";
+
+      try {
+        const response = await fetch('/create-payment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            amount: finalPrice,
+            description: `Тест: ${selectedTest} (Тариф ${finalPrice} ₽)`,
+            customerName: name,
+            customerPhone: phoneInput.value,
+            testName: selectedTest
+          })
+        });
+
+        const data = await response.json();
+
+        if (data.confirmationUrl) {
+          window.location.href = data.confirmationUrl;
+        } else {
+          alert("Ошибка при создании платежа. Попробуйте позже.");
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Оплатить и начать";
+        }
+      } catch (error) {
+        console.error("Ошибка:", error);
+        alert("Не удалось связаться с сервером оплаты.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Оплатить и начать";
+      }
+    }
+  </script>
 </body>
 </html>
